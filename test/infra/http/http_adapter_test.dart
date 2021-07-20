@@ -22,6 +22,15 @@ void main() {
     sut = HttpAdapter(client);
     url = faker.internet.httpUrl();
   });
+
+  group('shared', () {
+    test('Should throw ServerError if invalid method is provided', () async {
+      final future = sut.request(url: Uri.parse(url), method: 'invalid_method');
+
+      expect(future, throwsA(HttpError.serverError));
+    });
+  });
+
   group('post', () {
     PostExpectation mockRequest() => when(
         client.post(any, body: anyNamed('body'), headers: anyNamed('headers')));
@@ -100,7 +109,7 @@ void main() {
       expect(future, throwsA(HttpError.badRequest));
     });
 
-    test('Should return server error if post returns 401', () async {
+    test('Should return unauthorized error if post returns 401', () async {
       mockResponse(401);
 
       final future = sut.request(url: Uri.parse(url), method: 'post');
@@ -109,14 +118,14 @@ void main() {
     });
 
     test('Should return forbidden error if post returns 403', () async {
-      mockResponse(401);
+      mockResponse(403);
 
       final future = sut.request(url: Uri.parse(url), method: 'post');
 
       expect(future, throwsA(HttpError.forbidden));
     });
 
-    test('Should return forbidden error if post returns 404', () async {
+    test('Should return not found error if post returns 404', () async {
       mockResponse(404);
 
       final future = sut.request(url: Uri.parse(url), method: 'post');
