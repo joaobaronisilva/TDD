@@ -46,7 +46,7 @@ void main() {
     await sut.auth(params);
 
     verify(httpClient.request(
-        url: url,
+        url: Uri.parse(url),
         method: 'get',
         body: {'email': params.email, 'password': params.secret}));
   });
