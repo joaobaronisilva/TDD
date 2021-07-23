@@ -1,66 +1,53 @@
 import 'package:flutter/material.dart';
 
+import 'ui/components/app.dart';
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Color.fromRGBO(136, 14, 79, 1);
+    final primaryColorDark = Color.fromRGBO(96, 0, 39, 1);
+    final primaryColorLight = Color.fromRGBO(188, 71, 123, 1);
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '4Dev',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        primaryColor: primaryColor,
+        primaryColorDark: primaryColorDark,
+        primaryColorLight: primaryColorLight,
+        accentColor: primaryColor,
+        backgroundColor: Colors.white,
+        textTheme: TextTheme(
+            headline1: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: primaryColorDark)),
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: primaryColorLight),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: primaryColor),
+          ),
+          alignLabelWithHint: true,
         ),
+        buttonTheme: ButtonThemeData(
+            colorScheme: ColorScheme.light(
+              primary: primaryColor,
+            ),
+            buttonColor: primaryColor,
+            splashColor: primaryColorLight,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            textTheme: ButtonTextTheme.primary,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20))),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      home: App(),
     );
   }
 }
