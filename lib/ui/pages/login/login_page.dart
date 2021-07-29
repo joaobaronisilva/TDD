@@ -1,3 +1,5 @@
+// @dart=2.10
+
 import 'package:app/ui/components/components.dart';
 import 'package:app/ui/pages/pages.dart';
 import 'package:flutter/material.dart';
@@ -59,10 +61,14 @@ class LoginPage extends StatelessWidget {
                             );
                           }),
                     ),
-                    RaisedButton(
-                      onPressed: null,
-                      child: Text('Entrar'.toUpperCase()),
-                    ),
+                    StreamBuilder<bool>(
+                        stream: presenter.isFormValidStream,
+                        builder: (context, snapshot) {
+                          return RaisedButton(
+                            onPressed: snapshot.data == true ? () {} : null,
+                            child: Text('Entrar'.toUpperCase()),
+                          );
+                        }),
                     FlatButton.icon(
                         onPressed: () {},
                         icon: Icon(Icons.person),
