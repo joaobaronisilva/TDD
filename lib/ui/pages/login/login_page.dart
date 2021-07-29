@@ -29,7 +29,9 @@ class LoginPage extends StatelessWidget {
                           return TextFormField(
                             onChanged: presenter.validateEmail,
                             decoration: InputDecoration(
-                                errorText: snapshot.data,
+                                errorText: snapshot.data?.isEmpty == true
+                                    ? null
+                                    : snapshot.data,
                                 labelText: 'Email',
                                 icon: Icon(
                                   Icons.email,
@@ -40,14 +42,22 @@ class LoginPage extends StatelessWidget {
                         }),
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 32),
-                      child: TextFormField(
-                        onChanged: presenter.validatePassword,
-                        decoration: InputDecoration(
-                            labelText: 'Senha',
-                            icon: Icon(Icons.lock,
-                                color: Theme.of(context).primaryColorLight)),
-                        obscureText: true,
-                      ),
+                      child: StreamBuilder<String>(
+                          stream: presenter.passwordErrorStream,
+                          builder: (context, snapshot) {
+                            return TextFormField(
+                              onChanged: presenter.validatePassword,
+                              decoration: InputDecoration(
+                                  errorText: snapshot.data?.isEmpty == true
+                                      ? null
+                                      : snapshot.data,
+                                  labelText: 'Senha',
+                                  icon: Icon(Icons.lock,
+                                      color:
+                                          Theme.of(context).primaryColorLight)),
+                              obscureText: true,
+                            );
+                          }),
                     ),
                     RaisedButton(
                       onPressed: null,
