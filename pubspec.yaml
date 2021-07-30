@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   http:
+  provider:
   flutter_launcher_icons: ^0.9.1
 
 
